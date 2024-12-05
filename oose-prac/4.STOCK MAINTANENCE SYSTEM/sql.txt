@@ -1,0 +1,58 @@
+CREATE DATABASE StockManagement;
+CREATE TABLE Users (
+user_id INT AUTO_INCREMENT PRIMARY KEY,
+username VARCHAR(50) NOT NULL UNIQUE,
+password VARCHAR(255) NOT NULL
+);
+CREATE TABLE StockItems (
+item_id INT AUTO_INCREMENT PRIMARY KEY,
+item_name VARCHAR(100) NOT NULL,
+item_type VARCHAR(50),
+item_code VARCHAR(50) UNIQUE NOT NULL,
+item_date DATE,
+price DECIMAL(10, 2),
+quantity INT,
+net_weight DECIMAL(10, 2),
+total_amount DECIMAL(10, 2) GENERATED ALWAYS AS (price * quantity) STORED
+);
+
+INSERT INTO Users (username, password)
+VALUES ('admin', 'password123');
+INSERT INTO StockItems (item_name, item_type, item_code, item_date, price, quantity,
+net_weight)
+VALUES ('Laptop', 'Electronics', 'LT12345', '2024-11-01', 1000.00, 50, 1.5);
+SELECT * FROM StockItems;
+SELECT * FROM StockItems
+WHERE item_code = 'LT12345';
+UPDATE StockItems
+SET price = 950.00, quantity = 60, net_weight = 1.6
+WHERE item_code = 'LT12345';
+
+DELETE FROM StockItems
+WHERE item_code = 'LT12345';
+SELECT * FROM Users
+WHERE username = 'admin' AND password = 'password123';
+SELECT item_name, total_amount FROM StockItems;
+INSERT INTO Users (username, password)
+VALUES ('admin', 'adminpassword123');
+-- Adding a laptop
+INSERT INTO StockItems (item_name, item_type, item_code, item_date, price, quantity,
+net_weight)
+VALUES ('Laptop', 'Electronics', 'LT001', '2024-11-01', 1200.00, 30, 1.8);
+
+-- Adding a phone
+INSERT INTO StockItems (item_name, item_type, item_code, item_date, price, quantity,
+net_weight)
+VALUES ('Smartphone', 'Electronics', 'PH001', '2024-11-02', 800.00, 50, 0.2);
+SELECT * FROM StockItems;
+UPDATE StockItems
+SET price = 1150.00, quantity = 40
+WHERE item_code = 'LT001';
+DELETE FROM StockItems
+WHERE item_code = 'PH001';
+SELECT * FROM StockItems
+WHERE item_name LIKE '%Laptop%';
+SELECT SUM(total_amount) AS total_inventory_value
+FROM StockItems;
+SELECT * FROM StockItems
+WHERE quantity < 10;

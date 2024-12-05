@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Passport Application</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+<h1>Passport Application Form</h1>
+<form id="passportForm">
+<label for="name">Full Name:</label>
+<input type="text" id="name" required>
+
+<label for="dob">Date of Birth:</label>
+<input type="date" id="dob" required>
+
+<label for="address">Address:</label>
+<textarea id="address" required></textarea>
+
+<label for="passportType">Passport Type:</label>
+<select id="passportType" required>
+<option value="Regular">Regular</option>
+<option value="Diplomatic">Diplomatic</option>
+<option value="Official">Official</option>
+</select>
+
+<button type="button" onclick="submitForm()">Submit</button>
+</form>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

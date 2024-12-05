@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stock Maintenance System</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="loginForm" class="form-container">
+<h2>Login</h2>
+<label for="username">Username:</label>
+
+<input type="text" id="username" placeholder="Enter username">
+<label for="password">Password:</label>
+<input type="password" id="password" placeholder="Enter password">
+<button onclick="login()">Login</button>
+</div>
+<div id="stockForm" class="form-container" style="display:none;">
+<h2>Stock Maintenance</h2>
+<button onclick="logout()">Logout</button>
+<form id="stockItemForm">
+<label for="itemName">Item Name:</label>
+<input type="text" id="itemName" required>
+
+<label for="itemType">Item Type:</label>
+<input type="text" id="itemType" required>
+
+<label for="itemCode">Item Code:</label>
+<input type="text" id="itemCode" required>
+
+<label for="itemDate">Date:</label>
+<input type="date" id="itemDate" required>
+
+<label for="price">Price:</label>
+<input type="number" id="price" required>
+
+<label for="quantity">Quantity:</label>
+<input type="number" id="quantity" required>
+
+<label for="netWeight">Net Weight:</label>
+<input type="number" id="netWeight" required>
+
+<label for="totalAmount">Total Amount:</label>
+<input type="number" id="totalAmount" disabled>
+
+<button type="button" onclick="addItem()">Add Item</button>
+</form>
+
+<h3>Item List</h3>
+<table id="itemTable">
+<thead>
+<tr>
+<th>Item Name</th>
+<th>Item Type</th>
+<th>Item Code</th>
+<th>Date</th>
+<th>Price</th>
+<th>Quantity</th>
+<th>Net Weight</th>
+<th>Total Amount</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<!-- Stock items will be added here dynamically -->
+</tbody>
+</table>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

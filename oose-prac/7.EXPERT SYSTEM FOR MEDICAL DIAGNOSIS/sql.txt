@@ -1,0 +1,21 @@
+-- Create Patient Table
+CREATE TABLE patients (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    age INT,
+    symptoms VARCHAR(255)
+);
+
+-- Create Treatment Table
+CREATE TABLE treatments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    symptom VARCHAR(255),
+    treatment_description TEXT
+);
+
+-- Insert Predefined Treatments
+INSERT INTO treatments (symptom, treatment_description)
+VALUES
+    ('fever', 'Take rest, drink fluids, and use fever-reducing medications.'),
+    ('cough', 'Drink warm tea, take cough syrup, and rest.'),
+    ('headache', 'Use painkillers, stay hydrated, and get enough sleep.');

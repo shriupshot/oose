@@ -1,0 +1,71 @@
+CREATE DATABASE RailwayReservationSystem;
+USE RailwayReservationSystem;
+
+CREATE TABLE Users (
+user_id INT AUTO_INCREMENT PRIMARY KEY,
+username VARCHAR(50) NOT NULL UNIQUE,
+password VARCHAR(255) NOT NULL,
+full_name VARCHAR(100),
+email VARCHAR(100),
+phone VARCHAR(15)
+);
+
+-- Add an admin user
+INSERT INTO Users (username, password, full_name, email, phone)
+VALUES ('admin', 'admin123', 'Admin User', 'admin@railway.com', '1234567890');
+CREATE TABLE Trains (
+train_id INT AUTO_INCREMENT PRIMARY KEY,
+train_name VARCHAR(100) NOT NULL,
+train_number VARCHAR(20) UNIQUE NOT NULL,
+origin VARCHAR(50) NOT NULL,
+destination VARCHAR(50) NOT NULL,
+departure_time TIME,
+arrival_time TIME,
+total_seats INT,
+available_seats INT
+);
+
+-- Add sample trains
+INSERT INTO Trains (train_name, train_number, origin, destination, departure_time,
+arrival_time, total_seats, available_seats)
+VALUES
+('Express 101', 'EXP101', 'City A', 'City B', '08:00:00', '12:00:00', 100, 100),
+('Intercity 202', 'INT202', 'City C', 'City D', '14:00:00', '18:00:00', 80, 80),
+('Regional 303', 'REG303', 'City E', 'City F', '06:00:00', '10:00:00', 120, 120);
+CREATE TABLE Tickets (
+ticket_id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT,
+train_id INT,
+travel_date DATE NOT NULL,
+class_type ENUM('First Class', 'Second Class', 'Sleeper') NOT NULL,
+passenger_name VARCHAR(100) NOT NULL,
+passenger_age INT NOT NULL,
+passenger_gender ENUM('Male', 'Female', 'Other') NOT NULL,
+
+booking_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+total_fare DECIMAL(10, 2),
+FOREIGN KEY (user_id) REFERENCES Users(user_id),
+FOREIGN KEY (train_id) REFERENCES Trains(train_id)
+);
+
+-- Add a sample ticket booking
+INSERT INTO Tickets (user_id, train_id, travel_date, class_type, passenger_name,
+passenger_age, passenger_gender, total_fare)
+VALUES
+(1, 1, '2024-11-20', 'First Class', 'John Doe', 30, 'Male', 120.50);
+SELECT * FROM Trains;
+SELECT *
+FROM Trains
+WHERE origin = 'City A' AND destination = 'City B';
+SELECT train_name, train_number, available_seats
+FROM Trains
+WHERE train_id = 1; -- Replace 1 with the train's ID
+-- Example of booking a ticket:
+INSERT INTO Tickets (user_id, train_id, travel_date, class_type, passenger_name,
+passenger_age, passenger_gender, total_fare)
+VALUES (1, 1, '2024-11-25', 'Second Class', 'Alice Smith', 25, 'Female', 80.00);
+
+-- Update available seats after booking
+UPDATE Trains
+SET available_seats = available_seats - 1
+WHERE train_id = 1;

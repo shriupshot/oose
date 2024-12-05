@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exam Result</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<h2>Exam Result</h2>
+<div id="result"></div>
+<button onclick="downloadPDF()">Download PDF</button>
+<button onclick="goHome()">Go Home</button>
+<button onclick="logout()">Logout</button>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+const studentData = JSON.parse(localStorage.getItem("studentData"));
+if (studentData) {
+const resultHTML = `
+<p>Name: ${studentData.name}</p>
+<p>Registration No: ${studentData.regNo}</p>
+<h3>Subjects and Marks</h3>
+<ul>
+<li>Java: 92 (A)</li>
+<li>DBMS: 89 (B+)</li>
+<li>Computer Networks: 95 (A+)</li>
+<li>Operating System: 90 (A)</li>
+<li>Deep Learning: 88 (B+)</li>
+</ul>
+`;
+document.getElementById("result").innerHTML = resultHTML;
+}
+});
+
+function downloadPDF() {
+window.print();
+}
+
+function goHome() {
+window.location.href = "index.html";
+}
+
+function logout() {
+localStorage.clear();
+alert("Thank you for using the system!");
+window.location.href = "index.html";
+}
+</script>
+</body>
+</html>

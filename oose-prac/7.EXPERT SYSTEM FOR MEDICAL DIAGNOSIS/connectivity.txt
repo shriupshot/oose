@@ -1,0 +1,29 @@
+import java.sql.*;
+
+public class MedicalDiagnosisSystem {
+
+    public static void main(String[] args) {
+        String url = "jdbc:mysql://localhost:3306/medical_db";
+        String user = "root";
+        String password = "password";
+
+        try (Connection conn = DriverManager.getConnection(url, user, password)) {
+            String symptoms = "fever"; // Example symptom
+            String query = "SELECT treatment_description FROM treatments WHERE symptom = ?";
+            
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setString(1, symptoms);
+                ResultSet rs = stmt.executeQuery();
+                
+                if (rs.next()) {
+                    String treatment = rs.getString("treatment_description");
+                    System.out.println("Suggested Treatment: " + treatment);
+                } else {
+                    System.out.println("No treatment found for the symptom.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}

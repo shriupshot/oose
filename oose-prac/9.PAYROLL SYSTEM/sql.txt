@@ -1,0 +1,21 @@
+-- Create Employee Table
+CREATE TABLE employees (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    position VARCHAR(255) NOT NULL,
+    salary DECIMAL(10, 2) NOT NULL
+);
+
+-- Create Payroll Table
+CREATE TABLE payroll (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT,
+    pay_amount DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (employee_id) REFERENCES employees(id)
+);
+
+-- Insert employee data
+INSERT INTO employees (name, position, salary) VALUES ('John Doe', 'Manager', 5000.00);
+
+-- Insert payroll data
+INSERT INTO payroll (employee_id, pay_amount) VALUES (1, 5000.00);

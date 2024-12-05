@@ -1,0 +1,155 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class DBConnection {
+private static final String DB_URL =
+"jdbc:mysql://localhost:3306/RailwayReservationSystem"; // Replace with your database
+URL
+private static final String DB_USER = "root"; // Replace with your MySQL username
+private static final String DB_PASSWORD = ""; // Replace with your MySQL password
+
+public static Connection connect() {
+try {
+// Load MySQL JDBC Driver
+Class.forName("com.mysql.cj.jdbc.Driver");
+// Establish connection
+return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+} catch (ClassNotFoundException | SQLException e) {
+System.out.println("Connection Failed: " + e.getMessage());
+return null;
+}
+}
+}
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class UserService {
+public boolean authenticateUser(String username, String password) {
+String query = "SELECT * FROM Users WHERE username = ? AND password = ?";
+try (Connection conn = DBConnection.connect();
+PreparedStatement stmt = conn.prepareStatement(query)) {
+
+stmt.setString(1, username);
+stmt.setString(2, password);
+ResultSet rs = stmt.executeQuery();
+
+return rs.next(); // Return true if user exists
+} catch (Exception e) {
+System.out.println("Authentication Failed: " + e.getMessage());
+return false;
+}
+}
+}
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class TrainService {
+public void listTrains() {
+String query = "SELECT * FROM Trains";
+try (Connection conn = DBConnection.connect();
+PreparedStatement stmt = conn.prepareStatement(query);
+ResultSet rs = stmt.executeQuery()) {
+
+System.out.println("Available Trains:");
+while (rs.next()) {
+System.out.println("Train Name: " + rs.getString("train_name"));
+System.out.println("Train Number: " + rs.getString("train_number"));
+System.out.println("From: " + rs.getString("origin") + " To: " + rs.getString("destination"));
+System.out.println("Available Seats: " + rs.getInt("available_seats"));
+System.out.println("-------------------");
+
+}
+} catch (Exception e) {
+System.out.println("Error Listing Trains: " + e.getMessage());
+}
+
+public boolean updateSeatAvailability(int trainId, int seatsToBook) {
+String query = "UPDATE Trains SET available_seats = available_seats - ? WHERE train_id
+= ? AND available_seats >= ?";
+try (Connection conn = DBConnection.connect();
+PreparedStatement stmt = conn.prepareStatement(query)) {
+stmt.setInt(1, seatsToBook);
+stmt.setInt(2, trainId);
+stmt.setInt(3, seatsToBook);
+int rowsUpdated = stmt.executeUpdate();
+return rowsUpdated > 0; // Return true if seats were successfully updated
+} catch (Exception e) {
+System.out.println("Error Updating Seats: " + e.getMessage());
+return false;
+}
+}
+}
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+public class TicketService {
+public boolean bookTicket(int userId, int trainId, String travelDate, String classType,
+String passengerName, int passengerAge, String passengerGender, double totalFare) {
+String query = "INSERT INTO Tickets (user_id, train_id, travel_date, class_type,
+passenger_name, passenger_age, passenger_gender, total_fare) " +
+"VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+try (Connection conn = DBConnection.connect();
+
+PreparedStatement stmt = conn.prepareStatement(query)) {
+stmt.setInt(1, userId);
+stmt.setInt(2, trainId);
+stmt.setString(3, travelDate);
+stmt.setString(4, classType);
+stmt.setString(5, passengerName);
+stmt.setInt(6, passengerAge);
+stmt.setString(7, passengerGender);
+stmt.setDouble(8, totalFare);
+int rowsInserted = stmt.executeUpdate();
+return rowsInserted > 0; // Return true if ticket was successfully booked
+} catch (Exception e) {
+System.out.println("Error Booking Ticket: " + e.getMessage());
+return false;
+}
+}
+}
+import java.util.Scanner;
+
+public class Main {
+public static void main(String[] args) {
+Scanner scanner = new Scanner(System.in);
+UserService userService = new UserService();
+TrainService trainService = new TrainService();
+TicketService ticketService = new TicketService();
+
+System.out.println("Welcome to Railway Reservation System");
+System.out.print("Enter Username: ");
+String username = scanner.nextLine();
+System.out.print("Enter Password: ");
+
+String password = scanner.nextLine();
+if (userService.authenticateUser(username, password)) {
+System.out.println("Login Successful!");
+trainService.listTrains();
+System.out.print("Enter Travel Date (YYYY-MM-DD): ");
+String travelDate = scanner.nextLine();
+System.out.print("Enter Class Type (First Class/Second Class/Sleeper): ");
+String classType = scanner.nextLine();
+System.out.print("Enter Passenger Name: ");
+String passengerName = scanner.nextLine();
+System.out.print("Enter Passenger Age: ");
+int passengerAge = scanner.nextInt();
+scanner.nextLine(); // Consume newline
+System.out.print("Enter Passenger Gender (Male/Female/Other): ");
+String passengerGender = scanner.nextLine();
+System.out.print("Enter Total Fare: ");
+double totalFare = scanner.nextDouble();
+if (ticketService.bookTicket(1, trainId, travelDate, classType, passengerName, passengerAge,
+passengerGender, totalFare)) {
+trainService.updateSeatAvailability(trainId, seatsToBook);
+System.out.println("Ticket Successfully Booked!");
+} else {
+System.out.println("Ticket Booking Failed!");
+}
+} else {
+System.out.println("Invalid Username or Password!");
+}
+}
+}

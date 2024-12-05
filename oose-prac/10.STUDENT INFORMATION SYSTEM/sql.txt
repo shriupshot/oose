@@ -1,0 +1,26 @@
+CREATE DATABASE student_information_system;
+USE student_information_system;
+CREATE TABLE students (
+id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(100),
+reg_number VARCHAR(50),
+department VARCHAR(50),
+year INT,
+cgpa DECIMAL(3, 2)
+);
+
+CREATE TABLE marks (
+id INT AUTO_INCREMENT PRIMARY KEY,
+student_id INT,
+subject1 INT,
+subject2 INT,
+subject3 INT,
+subject4 INT,
+subject5 INT,
+total_marks INT,
+FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE
+);
+
+SELECT s.name, m.subject1, m.subject2, m.subject3, m.subject4, m.subject5, m.total_marks
+FROM marks m
+JOIN students s ON m.student_id = s.id;

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borrow Book</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Borrow a Book</h1>
+    </header>
+    <main>
+        <form id="searchBookForm">
+            <label for="borrowISBN">Enter ISBN of the Book:</label>
+            <input type="text" id="borrowISBN" name="borrowISBN" required>
+            <button type="submit">Search Book</button>
+        </form>
+        <div id="bookDetails">
+            <!-- Book details will be displayed here if found -->
+        </div>
+        <button id="borrowButton" style="display:none;">Borrow Book</button>
+        <p id="borrowMessage"></p>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

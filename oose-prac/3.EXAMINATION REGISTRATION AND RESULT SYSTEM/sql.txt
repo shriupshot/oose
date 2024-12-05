@@ -1,0 +1,33 @@
+-- Create the database
+CREATE DATABASE exam_system;
+
+-- Use the database
+USE exam_system;
+
+-- Create a table to store student information
+CREATE TABLE students (
+reg_no VARCHAR(20) PRIMARY KEY,
+name VARCHAR(50),
+dob DATE,
+
+password VARCHAR(20)
+);
+
+-- Create a table to store results
+CREATE TABLE results (
+reg_no VARCHAR(20),
+subject VARCHAR(50),
+marks INT,
+grade CHAR(2),
+FOREIGN KEY (reg_no) REFERENCES students(reg_no)
+);
+Insert a New Student
+INSERT INTO students (reg_no, name, dob, password) VALUES ('12345', 'John Doe', '2000-
+01-01', 'password123');
+Insert Exam Results
+INSERT INTO results (reg_no, subject, marks, grade) VALUES ('12345', 'Java', 92, 'A');
+Fetch Student Details and Results
+SELECT students.name, students.reg_no, results.subject, results.marks, results.grade
+FROM students
+JOIN results ON students.reg_no = results.reg_no
+WHERE students.reg_no = '12345';

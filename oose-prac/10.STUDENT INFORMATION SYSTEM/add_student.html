@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles.css">
+<title>Add Student</title>
+</head>
+<body>
+<div class="container">
+<h1>Add Student</h1>
+<form id="addStudentForm">
+<label for="name">Name:</label>
+<input type="text" id="name" required>
+
+<label for="regNumber">Registration Number:</label>
+<input type="text" id="regNumber" required>
+
+<label for="department">Department:</label>
+<select id="department" required>
+<option value="" disabled selected>Select Department</option>
+<option value="CSE">CSE</option>
+<option value="IT">IT</option>
+<option value="ECE">ECE</option>
+<option value="Chemistry">Chem</option>
+<option value="Mech">Mech</option>
+<option value="Civil">Civil</option>
+<option value="IOT">IOT</option>
+<option value="CS">CS</option>
+<option value="AIDS">AIDS</option>
+<option value="EEE">EEE</option>
+</select>
+
+<label for="year">Year:</label>
+<select id="year" required>
+<option value="" disabled selected>Select Year</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+</select>
+
+<label for="cgpa">CGPA:</label>
+<input type="number" id="cgpa" step="0.01" min="0" max="10" required>
+
+<button type="submit">Add Student</button>
+</form>
+<div class="home-button">
+<button onclick="location.href='index.html'">Home</button>
+</div>
+</div>
+
+<script>
+const students = JSON.parse(localStorage.getItem('students')) || [];
+
+document.getElementById('addStudentForm').addEventListener('submit', function(event) {
+event.preventDefault();
+
+const student = {
+name: document.getElementById('name').value,
+regNumber: document.getElementById('regNumber').value,
+department: document.getElementById('department').value,
+year: document.getElementById('year').value,
+cgpa: document.getElementById('cgpa').value,
+};
+
+students.push(student);
+localStorage.setItem('students', JSON.stringify(students));
+alert('Student added successfully!');
+location.href = 'view_students.html';
+});
+</script>
+</body>
+</html>

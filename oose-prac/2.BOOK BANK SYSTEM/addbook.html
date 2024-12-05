@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Book</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Add a New Book</h1>
+    </header>
+    <main>
+        <form id="addBookForm">
+            <label for="bookTitle">Book Title:</label>
+            <input type="text" id="bookTitle" name="bookTitle" required>
+            <label for="author">Author:</label>
+            <input type="text" id="author" name="author" required>
+            <label for="isbn">ISBN:</label>
+            <input type="text" id="isbn" name="isbn" required>
+            <button type="submit">Add Book</button>
+        </form>
+        <p id="message"></p>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+import java.sql.*;
+import java.util.Scanner;
+
+public class StockMaintenanceSystem {
+// Database URL, username, and password
+static final String DB_URL = "jdbc:mysql://localhost:3306/StockManagement";
+static final String USER = "root"; // Replace with your database username
+static final String PASS = "password"; // Replace with your database password
+
+// Main Method
+public static void main(String[] args) {
+try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS)) {
+System.out.println("Connected to the database successfully!");
+
+Scanner scanner = new Scanner(System.in);
+
+while (true) {
+System.out.println("\nStock Maintenance System:");
+System.out.println("1. Login");
+System.out.println("2. Add Stock Item");
+System.out.println("3. Update Stock Item");
+System.out.println("4. Delete Stock Item");
+System.out.println("5. View All Items");
+System.out.println("6. Exit");
+System.out.print("Enter your choice: ");
+
+int choice = scanner.nextInt();
+scanner.nextLine(); // Consume newline
+
+switch (choice) {
+
+case 1 -> login(conn, scanner);
+case 2 -> addStockItem(conn, scanner);
+case 3 -> updateStockItem(conn, scanner);
+case 4 -> deleteStockItem(conn, scanner);
+case 5 -> viewAllItems(conn);
+case 6 -> {
+System.out.println("Exiting... Goodbye!");
+scanner.close();
+return;
+}
+default -> System.out.println("Invalid choice. Try again.");
+}
+}
+} catch (SQLException e) {
+e.printStackTrace();
+}
+}
+
+// Login Method
+public static void login(Connection conn, Scanner scanner) throws SQLException {
+System.out.print("Enter username: ");
+String username = scanner.nextLine();
+System.out.print("Enter password: ");
+String password = scanner.nextLine();
+
+String query = "SELECT * FROM Users WHERE username = ? AND password = ?";
+try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+pstmt.setString(1, username);
+pstmt.setString(2, password);
+ResultSet rs = pstmt.executeQuery();
+
+if (rs.next()) {
+System.out.println("Login successful! Welcome, " + username + ".");
+} else {
+System.out.println("Invalid credentials. Try again.");
+}
+}
+}
+
+// Add Stock Item Method
+public static void addStockItem(Connection conn, Scanner scanner) throws SQLException {
+System.out.print("Enter item name: ");
+String itemName = scanner.nextLine();
+System.out.print("Enter item type: ");
+String itemType = scanner.nextLine();
+System.out.print("Enter item code: ");
+String itemCode = scanner.nextLine();
+System.out.print("Enter item date (YYYY-MM-DD): ");
+String itemDate = scanner.nextLine();
+System.out.print("Enter price: ");
+double price = scanner.nextDouble();
+System.out.print("Enter quantity: ");
+int quantity = scanner.nextInt();
+System.out.print("Enter net weight: ");
+double netWeight = scanner.nextDouble();
+
+String query = "INSERT INTO StockItems (item_name, item_type, item_code, item_date,
+price, quantity, net_weight) VALUES (?, ?, ?, ?, ?, ?, ?)";
+try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+pstmt.setString(1, itemName);
+pstmt.setString(2, itemType);
+pstmt.setString(3, itemCode);
+
+pstmt.setString(4, itemDate);
+pstmt.setDouble(5, price);
+pstmt.setInt(6, quantity);
+pstmt.setDouble(7, netWeight);
+
+int rows = pstmt.executeUpdate();
+System.out.println(rows + " item(s) added successfully.");
+}
+}
+
+// Update Stock Item Method
+public static void updateStockItem(Connection conn, Scanner scanner) throws SQLException
+{
+System.out.print("Enter item code to update: ");
+String itemCode = scanner.nextLine();
+System.out.print("Enter new price: ");
+double price = scanner.nextDouble();
+System.out.print("Enter new quantity: ");
+int quantity = scanner.nextInt();
+
+String query = "UPDATE StockItems SET price = ?, quantity = ? WHERE item_code = ?";
+try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+pstmt.setDouble(1, price);
+pstmt.setInt(2, quantity);
+pstmt.setString(3, itemCode);
+
+int rows = pstmt.executeUpdate();
+System.out.println(rows + " item(s) updated successfully.");
+}
+}
+
+// Delete Stock Item Method
+public static void deleteStockItem(Connection conn, Scanner scanner) throws SQLException
+{
+System.out.print("Enter item code to delete: ");
+String itemCode = scanner.nextLine();
+
+String query = "DELETE FROM StockItems WHERE item_code = ?";
+try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+pstmt.setString(1, itemCode);
+
+int rows = pstmt.executeUpdate();
+System.out.println(rows + " item(s) deleted successfully.");
+}
+}
+
+// View All Items Method
+public static void viewAllItems(Connection conn) throws SQLException {
+String query = "SELECT * FROM StockItems";
+try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+System.out.printf("%-10s %-15s %-15s %-15s %-10s %-10s %-10s %-15s\n",
+"ID", "Name", "Type", "Code", "Date", "Price", "Quantity", "Net Weight");
+while (rs.next()) {
+System.out.printf("%-10d %-15s %-15s %-15s %-10s %-10.2f %-10d %-15.2f\n",
+rs.getInt("item_id"),
+rs.getString("item_name"),
+rs.getString("item_type"),
+rs.getString("item_code"),
+rs.getDate("item_date"),
+rs.getDouble("price"),
+rs.getInt("quantity"),
+rs.getDouble("net_weight")); }}}}

@@ -1,0 +1,30 @@
+import java.sql.*;
+
+public class PayrollSystem {
+    public static void main(String[] args) {
+        String url = "jdbc:mysql://localhost:3306/payroll_system";
+        String username = "root";
+        String password = "yourpassword";
+        
+        try {
+            // Connect to the database
+            Connection conn = DriverManager.getConnection(url, username, password);
+            
+            // Example of querying employees
+            String query = "SELECT * FROM employees";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            
+            while (rs.next()) {
+                System.out.println("Employee ID: " + rs.getInt("id"));
+                System.out.println("Employee Name: " + rs.getString("name"));
+                System.out.println("Position: " + rs.getString("position"));
+                System.out.println("Salary: " + rs.getDouble("salary"));
+            }
+
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}

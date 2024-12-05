@@ -1,0 +1,56 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class ExamSystemDatabase {
+
+// Database URL, Username, Password
+private static final String URL = "jdbc:mysql://localhost:3306/exam_system";
+private static final String USERNAME = "root"; // replace with your MySQL username
+private static final String PASSWORD = "password"; // replace with your MySQL password
+
+// Establish database connection
+public static Connection getConnection() throws SQLException {
+return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+}
+public static void insertStudent(String regNo, String name, String dob, String password) {
+String query = "INSERT INTO students (reg_no, name, dob, password) VALUES (?, ?, ?, ?)";
+try (Connection conn = getConnection();
+PreparedStatement stmt = conn.prepareStatement(query)) {
+stmt.setString(1, regNo);
+stmt.setString(2, name);
+stmt.setString(3, dob);
+stmt.setString(4, password);
+stmt.executeUpdate();
+System.out.println("Student inserted successfully.");
+} catch (SQLException e) {
+e.printStackTrace();
+}
+}
+public static void getStudentResults(String regNo) {
+String query = "SELECT students.name, results.subject, results.marks, results.grade "
++ "FROM students JOIN results ON students.reg_no = results.reg_no "
++ "WHERE students.reg_no = ?";
+try (Connection conn = getConnection();
+PreparedStatement stmt = conn.prepareStatement(query)) {
+stmt.setString(1, regNo);
+
+ResultSet rs = stmt.executeQuery();
+while (rs.next()) {
+System.out.println("Name: " + rs.getString("name"));
+System.out.println("Subject: " + rs.getString("subject"));
+System.out.println("Marks: " + rs.getInt("marks"));
+System.out.println("Grade: " + rs.getString("grade"));
+System.out.println("-----------");
+}
+} catch (SQLException e) {
+e.printStackTrace();
+}
+}
+public static void main(String[] args) {
+insertStudent("12345", "John Doe", "2000-01-01", "password123");
+getStudentResults("12345");
+}
+}

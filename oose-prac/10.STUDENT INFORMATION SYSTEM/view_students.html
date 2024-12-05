@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles.css">
+<title>View Students</title>
+</head>
+<body>
+<div class="container">
+<h1>View Students</h1>
+<table>
+<thead>
+<tr>
+
+<th>Name</th>
+<th>Registration Number</th>
+<th>Department</th>
+<th>Year</th>
+<th>CGPA</th>
+</tr>
+</thead>
+<tbody id="studentsTableBody">
+<!-- Student data will be dynamically inserted here -->
+</tbody>
+</table>
+<div class="home-button">
+<button onclick="location.href='index.html'">Home</button>
+</div>
+<div class="buttons">
+<button id="deleteDataButton">Delete All Data</button>
+</div>
+</div>
+
+<script>
+const students = JSON.parse(localStorage.getItem('students')) || [];
+const tableBody = document.getElementById('studentsTableBody');
+
+// Display student data
+students.forEach(student => {
+const row = document.createElement('tr');
+row.innerHTML = `
+<td>${student.name}</td>
+<td>${student.regNumber}</td>
+<td>${student.department}</td>
+
+<td>${student.year}</td>
+<td>${student.cgpa}</td>
+`;
+tableBody.appendChild(row);
+});
+
+// Add event listener to delete all data
+document.getElementById('deleteDataButton').addEventListener('click', function() {
+if (confirm('Are you sure you want to delete all student data?')) {
+localStorage.removeItem('students');
+tableBody.innerHTML = ''; // Clear the table
+alert('All student data deleted successfully!');
+}
+});
+</script>
+</body>
+</html>

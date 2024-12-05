@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles.css">
+<title>Student Information System</title>
+<style>
+body {
+font-family: Arial, sans-serif;
+background-color: #f0f0f0;
+display: flex;
+justify-content: center;
+align-items: center;
+
+height: 100vh;
+margin: 0;
+}
+.container {
+background-color: #fff;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+text-align: center;
+}
+h1 {
+color: #333;
+}
+.buttons {
+margin-top: 20px;
+}
+.buttons button {
+background-color: #007bff;
+color: #fff;
+border: none;
+padding: 10px 20px;
+margin: 5px;
+border-radius: 5px;
+cursor: pointer;
+transition: background-color 0.3s, transform 0.3s;
+}
+.buttons button:hover {
+background-color: #0056b3;
+transform: scale(1.1);
+}
+
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Student Information System</h1>
+<div class="buttons">
+<button onclick="location.href='add_student.html'">Add Student</button>
+<button onclick="location.href='view_students.html'">View Students</button>
+<button onclick="location.href='add_marks.html'">Add Marks</button>
+</div>
+</div>
+</body>
+</html>

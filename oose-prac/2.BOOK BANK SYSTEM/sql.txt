@@ -1,0 +1,18 @@
+-- Create a database for the Book Bank
+CREATE DATABASE book_bank;
+
+-- Switch to the book_bank database
+USE book_bank;
+
+-- Create a table to store book details
+CREATE TABLE books (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    isbn VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- Insert sample data
+INSERT INTO books (title, author, isbn) VALUES
+('The Great Gatsby', 'F. Scott Fitzgerald', '1234567890'),
+('1984', 'George Orwell', '9876543210');

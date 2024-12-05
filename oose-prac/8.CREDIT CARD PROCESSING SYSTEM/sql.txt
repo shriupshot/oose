@@ -1,0 +1,34 @@
+-- Create a database for the credit card processing system
+CREATE DATABASE credit_card_db;
+
+-- Use the created database
+USE credit_card_db;
+
+-- Create a table to store credit card transaction details
+CREATE TABLE transactions (
+    transaction_id INT AUTO_INCREMENT PRIMARY KEY,
+    card_number VARCHAR(20) NOT NULL,
+    expiry_date VARCHAR(7) NOT NULL,
+    cvv VARCHAR(4) NOT NULL,
+    transaction_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    amount DECIMAL(10, 2) NOT NULL,
+    status VARCHAR(20) DEFAULT 'Successful'
+);
+
+-- Insert a sample transaction record (this can be replaced with data from a form)
+INSERT INTO transactions (card_number, expiry_date, cvv, amount, status)
+VALUES ('1234567812345678', '12/24', '123', 250.50, 'Successful');
+
+-- Query to retrieve all transaction history
+SELECT transaction_id, card_number, transaction_date, amount, status FROM transactions;
+
+-- Update the status of a transaction (for example, if it's failed)
+UPDATE transactions
+SET status = 'Failed'
+WHERE transaction_id = 1;
+
+-- Delete a transaction record (if needed)
+DELETE FROM transactions WHERE transaction_id = 1;
+
+-- Query to calculate the total amount of all transactions
+SELECT SUM(amount) AS total_amount FROM transactions;

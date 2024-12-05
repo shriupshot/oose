@@ -1,0 +1,81 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f7f8fc;
+    margin: 20px;
+    }
+    
+    h2 {
+    color: #333;
+    }
+    
+    button {
+    margin: 8px;
+    
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    }
+    
+    /* Different colors for each button */
+    button:nth-of-type(1) {
+    background-color: #4CAF50; /* Green */
+    }
+    
+    button:nth-of-type(2) {
+    background-color: #2196F3; /* Blue */
+    }
+    
+    button:nth-of-type(3) {
+    background-color: #FF9800; /* Orange */
+    }
+    
+    button:nth-of-type(4) {
+    background-color: #f44336; /* Red */
+    }
+    
+    /* Hover effects for buttons */
+    button:hover {
+    opacity: 0.9;
+    
+    }
+    form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    label {
+    margin: 10px 0 5px;
+    font-weight: bold;
+    color: #333;
+    }
+    input[type="text"],
+    input[type="password"],
+    input[type="date"] {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    }
+    #result {
+    background-color: #e3f2fd;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    
+    margin-bottom: 20px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);}

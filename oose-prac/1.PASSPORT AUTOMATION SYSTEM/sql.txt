@@ -1,0 +1,61 @@
+CREATE TABLE users (
+user_id INT AUTO_INCREMENT PRIMARY KEY,
+full_name VARCHAR(100) NOT NULL,
+dob DATE NOT NULL,
+gender ENUM('Male', 'Female', 'Other') NOT NULL,
+email VARCHAR(100) NOT NULL UNIQUE,
+phone VARCHAR(15),
+address TEXT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE passport_applications (
+application_id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT NOT NULL,
+application_date DATE NOT NULL DEFAULT CURRENT_DATE,
+passport_type ENUM('Regular', 'Diplomatic', 'Official') NOT NULL,
+status ENUM('Pending', 'Approved', 'Rejected', 'Under Review') DEFAULT 'Pending',
+issued_date DATE,
+expiry_date DATE,
+FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE application_documents (
+document_id INT AUTO_INCREMENT PRIMARY KEY,
+application_id INT NOT NULL,
+document_type ENUM('ID Proof', 'Address Proof', 'Birth Certificate', 'Photograph') NOT
+NULL,
+document_url VARCHAR(255) NOT NULL,
+uploaded_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (application_id) REFERENCES passport_applications(application_id)
+);
+CREATE TABLE payment (
+payment_id INT AUTO_INCREMENT PRIMARY KEY,
+application_id INT NOT NULL,
+amount DECIMAL(10, 2) NOT NULL,
+payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+payment_method ENUM('Credit Card', 'Debit Card', 'Net Banking', 'UPI') NOT NULL,
+payment_status ENUM('Pending', 'Completed', 'Failed') DEFAULT 'Pending',
+transaction_id VARCHAR(100) UNIQUE,
+FOREIGN KEY (application_id) REFERENCES passport_applications(application_id)
+);
+CREATE TABLE application_status_log (
+log_id INT AUTO_INCREMENT PRIMARY KEY,
+application_id INT NOT NULL,
+status ENUM('Pending', 'Approved', 'Rejected', 'Under Review') NOT NULL,
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+updated_by VARCHAR(50),
+remarks TEXT,
+FOREIGN KEY (application_id) REFERENCES passport_applications(application_id)
+);
+INSERT INTO users (full_name, dob, gender, email, phone, address)
+VALUES ('John Doe', '1990-05-15', 'Male', 'john.doe@example.com', '1234567890', '123
+Main St, Springfield');
+INSERT INTO passport_applications (user_id, passport_type)
+VALUES (1, 'Regular');
+
+INSERT INTO application_status_log (application_id, status, updated_by, remarks)
+VALUES (1, 'Approved', 'Admin', 'Application has been approved');
+INSERT INTO payment (application_id, amount, payment_method, payment_status,
+transaction_id)
+VALUES (1, 100.00, 'Credit Card', 'Completed', 'TXN123456');

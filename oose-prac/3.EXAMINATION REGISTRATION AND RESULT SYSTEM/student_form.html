@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Registration</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h2>Student Registration</h2>
+<form onsubmit="displayResult(event)">
+<label for="name">Name:</label>
+<input type="text" id="name" required><br>
+<label for="dob">Date of Birth:</label>
+<input type="date" id="dob" required><br>
+<label for="regNo">Registration No:</label>
+
+<input type="text" id="regNo" required><br>
+<label for="password">Password:</label>
+<input type="password" id="password" required><br>
+<button type="submit">Submit</button>
+</form>
+
+<script>
+function displayResult(event) {
+event.preventDefault();
+// Store data locally or send to the server if needed
+const studentData = {
+name: document.getElementById("name").value,
+dob: document.getElementById("dob").value,
+regNo: document.getElementById("regNo").value
+};
+localStorage.setItem("studentData", JSON.stringify(studentData));
+window.location.href = "result_page.html";
+}
+</script>
+</body>
+</html>
